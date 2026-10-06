@@ -18,7 +18,7 @@ window.CONFIG = {
   lock: {
     eyebrow: "a little secret · for Raisa",
     title: "Shhh… <em>not yet.</em>",
-    lead: "Tumi bhabcho ami tomar birthday kobe jani na? Maybe ami jani na. Kintu ei website ta jane. 🤫 Exactly 12:00 AM e eta nijei khule jabe — ek second o aage na.",
+        lead: "This site will open at 12:00 AM on your birthday — make sure to visit it. 🤍",
     taunts: [
       "Ei je Raisa, eto taratari? 😤",
       "Phone er clock ghuriye labh nai — ami server er time dekhi 😌",
