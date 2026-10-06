@@ -16,16 +16,16 @@ window.CONFIG = {
 
   /* ---------------- LOCK SCREEN (before 12:00 AM) ---------------- */
   lock: {
-    eyebrow: "a little secret · for Raisa",
+    eyebrow: "a little surprise · for Raisa",
     title: "Shhh… <em>not yet.</em>",
-        lead: "This site will open at 12:00 AM on your birthday — make sure to visit it. 🤍",
+    lead: "This site will open at 12:00 AM on your birthday — make sure to visit it. 🤍",
     taunts: [
       "Ei je Raisa, eto taratari? 😤",
       "Phone er clock ghuriye labh nai — ami server er time dekhi 😌",
       "Shobur e mewa phole. Literally.",
       "No spoilers. Not even for the birthday girl.",
       "Ami jani tumi curious. Etai to plan chhilo 😏",
-      "Ghumao, alarm dao, 12 tay esho. ⏰",
+      "12:00 AM e esho, website ta wait korche. ⏰",
       "Envelope ta tap kore labh nai, eta sealed. 🔒"
     ],
     sealTaunts: [
@@ -46,7 +46,7 @@ window.CONFIG = {
       "Okay okay…"
     ],
     gaveUpLabel: "Fine 🙄 click",
-    gaveUpToast: "Hehe, nice try 😌 12 AM e esho. Ami (ar ei website ta) wait korchi.",
+    gaveUpToast: "Hehe, nice try 😌 12:00 AM e esho — make sure to visit it then!",
     unlockedTitle: "It's time <em>✨</em>"
   },
 
