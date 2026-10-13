@@ -98,11 +98,10 @@ window.CONFIG = {
   /* ---------------- THE LETTER ---------------- */
   letterTitle: "Dear Raisa,",
   letter: [
-    "Ami tomake etotuku chinsi if someone wishes you on your birthday; you get happiest the most; its just a little effort from me to make you happy on your birthday.",
-    "Though we dont talk anymore; and i couldnt make some gift from you; even if i meet you maybe because of time; i wouldnt be able to gift you something thoughtful;",
-    "but i was working on this website even before we stopped talking; because what if your birthday falls in first of october.",
-    "Im just too much sad about the fact that we couldnt work on; but i want you to know i really loved the moment where i was with you.",
-    "Happy Birthday, Raisa. 🤍"
+    "I know you well enough to know this — when someone remembers your birthday, really remembers it, you light up like nothing else. So this is just my small way of making sure this day feels a little more special for you.",
+    "Things are different between us now. We don't talk the way we used to, and I know I probably won't be able to hand you a gift or be there in person. But I started building this site before any of that — because I wanted you to have something made entirely with you in mind, regardless of everything else.",
+    "I genuinely miss the time we had. The conversations, the small moments, the easy comfort of just existing in the same space. I carry those with me, quietly.",
+    "Happy Birthday, Raisa. I hope this year is kinder to you than you expect. 🤍"
   ],
 
   /* ---------------- THE GAME ---------------- */
