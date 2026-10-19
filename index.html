@@ -83,6 +83,27 @@
     </div>
   </section>
 
+  <!-- ============ BLOCKED NOTICE MODAL ============ -->
+  <div id="blocked-notice-modal" class="blocked-modal-overlay" aria-hidden="true">
+    <div class="blocked-card" role="dialog" aria-modal="true" aria-labelledby="blocked-title">
+      <span class="blocked-badge">Access Notice</span>
+      <div class="blocked-icon-wrap" aria-hidden="true">🔒</div>
+      <h2 class="blocked-title" id="blocked-title">Previous Site Blocked</h2>
+      <p class="blocked-desc">
+        The previous birthday website has been locked and cannot be opened.
+      </p>
+      <p class="blocked-sub">
+        Redirecting you to your birthday letter…
+      </p>
+      <div class="blocked-progress-container" aria-hidden="true">
+        <div class="blocked-progress-bar" id="blocked-progress-bar"></div>
+      </div>
+      <button class="blocked-proceed-btn" id="blocked-proceed-btn">
+        Proceed to Letter ✉️
+      </button>
+    </div>
+  </div>
+
   <div class="flash" id="flash" aria-hidden="true"></div>
 
   <!-- ============ THE EXPERIENCE ============ -->
@@ -154,6 +175,15 @@
       </article>
     </section>
 
+    <!-- REASONS (Things I Notice About You) -->
+    <section class="reasons" id="reasons">
+      <div class="reasons-inner">
+        <p class="eyebrow">tomar shomporke</p>
+        <h3 class="reasons-title" id="reasons-title">Things I notice about you</h3>
+        <ol class="reasons-list" id="reasons-list"></ol>
+      </div>
+    </section>
+
     <!-- GAME -->
     <section class="game" id="game">
       <div class="game-card" id="game-card">
@@ -170,6 +200,17 @@
           <p class="game-sub" id="game-yes-sub"></p>
         </div>
       </div>
+    </section>
+
+    <!-- STARS (Wish Upon a Star) -->
+    <section class="stars-section" id="stars-section">
+      <canvas id="stars-canvas" aria-hidden="true"></canvas>
+      <div class="stars-overlay" id="stars-overlay">
+        <p class="eyebrow">just for you</p>
+        <h3 class="stars-title">Look up, Raisa ✨</h3>
+        <p class="stars-hint" id="stars-hint">Tap a star and make a silent wish…</p>
+      </div>
+      <div class="stars-name" id="stars-name" aria-hidden="true"></div>
     </section>
 
     <!-- FINALE -->

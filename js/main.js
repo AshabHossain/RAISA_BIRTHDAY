@@ -334,6 +334,13 @@
     C.letter.forEach((line) => { const p = document.createElement("p"); body.appendChild(p); splitWords(p, line); });
     $("#letter-from").textContent = C.from;
 
+    // reasons list
+    const rl = $("#reasons-list");
+    C.reasons.forEach((r) => { const li = document.createElement("li"); li.textContent = r; rl.appendChild(li); });
+
+    // stars name
+    $("#stars-name").textContent = C.name;
+
     const G = C.game;
     $("#game-eyebrow").textContent = G.eyebrow;
     $("#game-q").textContent = G.question;
@@ -363,8 +370,40 @@
   }
 
   /* ---------------------------------------------------------------
-     GATE
+     GATE & BLOCKED NOTICE TRANSITION
   --------------------------------------------------------------- */
+  function showBlockedNotice() {
+    const modal = $("#blocked-notice-modal");
+    const bar = $("#blocked-progress-bar");
+    const btn = $("#blocked-proceed-btn");
+    if (!modal) {
+      window.location.href = "letter.html" + window.location.search;
+      return;
+    }
+    
+    modal.classList.add("is-active");
+    modal.setAttribute("aria-hidden", "false");
+    
+    // Animate progress bar
+    requestAnimationFrame(() => {
+      setTimeout(() => {
+        if (bar) bar.style.width = "100%";
+      }, 60);
+    });
+
+    let navigated = false;
+    const proceed = () => {
+      if (navigated) return;
+      navigated = true;
+      window.location.href = "letter.html" + window.location.search;
+    };
+
+    if (btn) btn.addEventListener("click", proceed);
+
+    // Auto proceed after 3.8s
+    setTimeout(proceed, 3800);
+  }
+
   let photosReady;
   function showGate() {
     const G = C.gate;
@@ -372,8 +411,6 @@
     $("#gate-title").textContent = G.title;
     $("#gate-hint").textContent = G.hint;
     $("#gate-small").textContent = G.small;
-    fillExperience();
-    photosReady = preload(PHOTOS);
 
     const gate = $("#gate");
     gate.hidden = false;
@@ -382,11 +419,9 @@
     const env = $("#gate-envelope");
     env.addEventListener("click", async () => {
       if (env.classList.contains("is-open")) return;
-      Music.start();
       env.classList.add("is-open");
-      const sb = $("#sound"); sb.hidden = false;
-      await Promise.all([sleep(1500), photosReady]);
-      await enterExperience();
+      await sleep(950);
+      showBlockedNotice();
     }, { once: false });
   }
 
@@ -488,9 +523,27 @@
     gsap.set("#letter-body .w", { y: 6 });
     gsap.from(".letter-sign", { opacity: 0, y: 20, duration: 1.2, scrollTrigger: { trigger: ".letter-sign", start: "top 92%" } });
 
+    // reasons — each item fades in on scroll
+    gsap.from(".reasons-inner .eyebrow, .reasons-title", { y: 40, opacity: 0, stagger: .1, duration: 1.2, ease: "expo.out", scrollTrigger: { trigger: "#reasons", start: "top 75%" } });
+    $$("#reasons-list li").forEach((li, i) => {
+      ScrollTrigger.create({
+        trigger: li,
+        start: "top 88%",
+        onEnter: () => { setTimeout(() => li.classList.add("is-visible"), i * 60); },
+        once: true
+      });
+    });
+
     // game + finale
     gsap.from("#game-card", { y: 80, scale: .94, opacity: 0, duration: 1.3, ease: "expo.out", scrollTrigger: { trigger: "#game", start: "top 70%" } });
+
+    // stars section enter
+    gsap.from(".stars-overlay > *", { y: 30, opacity: 0, stagger: .12, duration: 1.2, ease: "expo.out", scrollTrigger: { trigger: "#stars-section", start: "top 70%" } });
+
     gsap.from(".finale-before > *, .cake", { y: 50, opacity: 0, stagger: .12, duration: 1.2, ease: "expo.out", scrollTrigger: { trigger: "#finale", start: "top 70%" } });
+
+    // init the starry sky canvas
+    initStars();
 
     addEventListener("load", () => ScrollTrigger.refresh());
     ScrollTrigger.refresh();
@@ -512,6 +565,163 @@
           confetti({ particleCount: 70, angle: 120, spread: 60, origin: { x: 1, y: .8 }, colors });
         }
       }, "-=2");
+  }
+
+  /* ---------------------------------------------------------------
+     STARRY SKY — interactive constellation with name reveal
+  --------------------------------------------------------------- */
+  function initStars() {
+    const canvas = $("#stars-canvas");
+    if (!canvas) return;
+    const ctx = canvas.getContext("2d");
+    let W, H, stars = [], raf;
+    const STAR_COUNT = 180;
+    let nameRevealed = false;
+
+    function resize() {
+      const rect = canvas.parentElement.getBoundingClientRect();
+      W = canvas.width = rect.width * devicePixelRatio;
+      H = canvas.height = rect.height * devicePixelRatio;
+      canvas.style.width = rect.width + "px";
+      canvas.style.height = rect.height + "px";
+      ctx.scale(devicePixelRatio, devicePixelRatio);
+    }
+
+    function seed() {
+      stars = [];
+      const w = W / devicePixelRatio, h = H / devicePixelRatio;
+      for (let i = 0; i < STAR_COUNT; i++) {
+        stars.push({
+          x: Math.random() * w,
+          y: Math.random() * h,
+          r: Math.random() * 1.8 + .4,
+          alpha: Math.random() * .6 + .3,
+          twinkleSpeed: Math.random() * .02 + .005,
+          twinkleOffset: Math.random() * Math.PI * 2,
+          vx: 0, vy: 0
+        });
+      }
+    }
+
+    let shootingStar = null;
+    function spawnShootingStar() {
+      const w = W / devicePixelRatio, h = H / devicePixelRatio;
+      shootingStar = {
+        x: Math.random() * w * .6 + w * .1,
+        y: Math.random() * h * .3,
+        vx: 3 + Math.random() * 2,
+        vy: 1.5 + Math.random(),
+        life: 1,
+        len: 40 + Math.random() * 30
+      };
+    }
+
+    function draw(t) {
+      const w = W / devicePixelRatio, h = H / devicePixelRatio;
+      ctx.clearRect(0, 0, w, h);
+
+      // stars
+      stars.forEach((s) => {
+        const flicker = Math.sin(t * s.twinkleSpeed + s.twinkleOffset) * .3 + .7;
+        ctx.beginPath();
+        ctx.arc(s.x, s.y, s.r, 0, Math.PI * 2);
+        ctx.fillStyle = `rgba(252, 216, 226, ${s.alpha * flicker})`;
+        ctx.fill();
+        // glow on brighter stars
+        if (s.r > 1.2) {
+          ctx.beginPath();
+          ctx.arc(s.x, s.y, s.r * 3, 0, Math.PI * 2);
+          ctx.fillStyle = `rgba(234, 200, 158, ${s.alpha * flicker * .12})`;
+          ctx.fill();
+        }
+        // physics for burst
+        s.x += s.vx;
+        s.y += s.vy;
+        s.vx *= .97;
+        s.vy *= .97;
+      });
+
+      // shooting star
+      if (shootingStar) {
+        const ss = shootingStar;
+        ctx.save();
+        const grad = ctx.createLinearGradient(ss.x, ss.y, ss.x - ss.vx * ss.len * .3, ss.y - ss.vy * ss.len * .3);
+        grad.addColorStop(0, `rgba(252, 216, 226, ${ss.life})`);
+        grad.addColorStop(1, "rgba(252, 216, 226, 0)");
+        ctx.strokeStyle = grad;
+        ctx.lineWidth = 1.5;
+        ctx.beginPath();
+        ctx.moveTo(ss.x, ss.y);
+        ctx.lineTo(ss.x - ss.vx * ss.len * .3, ss.y - ss.vy * ss.len * .3);
+        ctx.stroke();
+        ctx.restore();
+        ss.x += ss.vx;
+        ss.y += ss.vy;
+        ss.life -= .012;
+        if (ss.life <= 0) shootingStar = null;
+      }
+
+      raf = requestAnimationFrame(draw);
+    }
+
+    function burst() {
+      const w = W / devicePixelRatio, h = H / devicePixelRatio;
+      const cx = w / 2, cy = h / 2;
+      stars.forEach((s) => {
+        const dx = s.x - cx, dy = s.y - cy;
+        const dist = Math.sqrt(dx * dx + dy * dy) || 1;
+        const force = 2 + Math.random() * 3;
+        s.vx = (dx / dist) * force;
+        s.vy = (dy / dist) * force;
+      });
+    }
+
+    function handleTap(e) {
+      if (nameRevealed) return;
+      const rect = canvas.parentElement.getBoundingClientRect();
+      const tx = (e.clientX || e.touches?.[0]?.clientX) - rect.left;
+      const ty = (e.clientY || e.touches?.[0]?.clientY) - rect.top;
+
+      // check if near any star
+      const hit = stars.find((s) => Math.hypot(s.x - tx, s.y - ty) < 22);
+      if (!hit) return;
+
+      nameRevealed = true;
+      if (!userMuted) Music.chime();
+
+      // burst outward
+      burst();
+
+      // show name
+      setTimeout(() => {
+        const nameEl = $("#stars-name");
+        nameEl.classList.add("is-visible");
+        // mini confetti
+        if (window.confetti) {
+          const colors = ["#eac89e", "#f5dabb", "#fcd8e2", "#f0a0b4"];
+          confetti({ particleCount: 50, spread: 90, origin: { x: .5, y: .5 }, colors, gravity: .6 });
+        }
+      }, 600);
+
+      // update hint
+      setTimeout(() => {
+        const hint = $("#stars-hint");
+        if (hint) hint.textContent = "This sky is yours tonight. ✨";
+      }, 1200);
+    }
+
+    canvas.addEventListener("click", handleTap);
+    canvas.addEventListener("touchstart", (e) => { e.preventDefault(); handleTap(e); }, { passive: false });
+
+    resize();
+    seed();
+    draw(0);
+
+    // periodic shooting star
+    setInterval(() => { if (!shootingStar) spawnShootingStar(); }, 5000);
+    setTimeout(spawnShootingStar, 2000);
+
+    addEventListener("resize", () => { resize(); seed(); });
   }
 
   /* ---------------------------------------------------------------

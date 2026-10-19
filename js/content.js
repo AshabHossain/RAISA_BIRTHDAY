@@ -104,33 +104,47 @@ window.CONFIG = {
     "Happy Birthday, Raisa. I hope this year is kinder to you than you expect. 🤍"
   ],
 
+  /* ---------------- REASONS (Things I notice) ---------------- */
+  reasons: [
+    "The way you laugh — loud, unfiltered, and completely contagious.",
+    "How you overthink everything but still somehow always figure it out.",
+    "That you remember the smallest things people tell you.",
+    "Your voice when you're excited about something — it goes a little higher and faster.",
+    "How you pretend you don't care, but you care the most.",
+    "The way you light up when someone genuinely remembers your birthday.",
+    "That you're braver than you give yourself credit for.",
+    "How you make everyone around you feel noticed.",
+    "The fact that you never realize how much people actually miss you when you're not around.",
+    "Everything. I notice everything, Raisa. 🤍"
+  ],
+
   /* ---------------- THE GAME ---------------- */
   game: {
     eyebrow: "ekta shotti kotha bolo",
-    question: "Admit it… you missed me a little, right? 🙄",
+    question: "Oi je 4/5 din ami chilam na… miss korecho? 🙄",
     yes: "Hmm… yes 🙈",
     noTexts: [
       "No",
       "Sure? 🤨",
       "Birthday te mittha? 😳",
-      "Button o tomake bishshash kore na",
-      "Eto try korcho keno? 😂",
+      "4/5 din ektu o na? 😐",
+      "Button o bishshash korche na 👀",
       "Raisa. Behave.",
-      "Okay this is embarrassing",
+      "Okay this is getting embarrassing 😂",
       "Just press yes 🙄"
     ],
     subTexts: [
       "Choose wisely 😌",
       "Hmm, interesting choice…",
-      "Website ta tomar mittha dhore felche 👀",
+      "Oi 4/5 din ki completely bhule geso? 👀",
       "Yes button ta boro hocche, notice korecho?",
-      "Ar koto? 😌",
       "Ami wait korte pari. Shara raat.",
+      "Ar koto? 😌",
       "…",
       "Tumi jano answer ta 🙂"
     ],
     yesReply: "Ami jantam 😌",
-    yesSub: "Ami o. Onek beshi. 🤍"
+    yesSub: "Oi 4/5 din ami o miss korechhilam. Onek beshi. 🤍"
   },
 
   /* ---------------- FINALE ---------------- */
