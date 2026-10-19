@@ -381,6 +381,8 @@
       return;
     }
     
+    modal.hidden = false;
+    modal.style.display = "grid";
     modal.classList.add("is-active");
     modal.setAttribute("aria-hidden", "false");
     
