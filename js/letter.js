@@ -155,11 +155,26 @@
       }
     }
 
+    function chime() {
+      initContext();
+      if (ctx.state === "suspended") ctx.resume();
+      const t = ctx.currentTime;
+      [
+        ["C5", 0, 0.25],
+        ["E5", 0.12, 0.28],
+        ["G5", 0.24, 0.32],
+        ["C6", 0.38, 0.38],
+        ["E6", 0.52, 0.45]
+      ].forEach(([note, delay, vol]) => {
+        playBell(N(note), t + delay, 2.5, vol);
+      });
+    }
+
     function isPlaying() {
       return playing;
     }
 
-    return { start, stop, toggle, isPlaying };
+    return { start, stop, toggle, isPlaying, chime };
   })();
 
   /* ---------------------------------------------------------------
@@ -291,11 +306,111 @@
   }
 
   /* ---------------------------------------------------------------
+     5. Cake & Birthday Wish Logic
+  --------------------------------------------------------------- */
+  function initCakeWish() {
+    const cake = document.getElementById("cake");
+    const wishInput = document.getElementById("wish-input");
+    const cakeStage = document.getElementById("cake-stage");
+    const wishAfter = document.getElementById("wish-after");
+    const savedWishDisplay = document.getElementById("saved-wish-display");
+    const savedWishText = document.getElementById("saved-wish-text");
+    const relightBtn = document.getElementById("relight-btn");
+    let blown = false;
+
+    async function blowOutCandles() {
+      if (blown) return;
+      blown = true;
+
+      // 1. Capture wish
+      const wish = wishInput ? wishInput.value.trim() : "";
+      if (wish) {
+        try {
+          localStorage.setItem("raisa_birthday_wish", wish);
+        } catch (e) {}
+      }
+
+      // 2. Blow out each candle sequentially
+      const candles = document.querySelectorAll(".candle");
+      for (const c of candles) {
+        c.classList.add("out");
+        await new Promise((r) => setTimeout(r, 180));
+      }
+
+      // 3. Play celebration chime
+      MusicBox.chime();
+
+      // 4. Fire soft celebratory confetti
+      if (window.confetti) {
+        const colors = ["#f2a0b5", "#ffd9e3", "#ecc9a0", "#e46f8f", "#fff1df"];
+        const fire = (x) => window.confetti({ particleCount: 75, startVelocity: 40, spread: 360, ticks: 130, origin: { x, y: 0.6 }, colors });
+        fire(0.3);
+        setTimeout(() => fire(0.7), 250);
+        setTimeout(() => fire(0.5), 500);
+      }
+
+      await new Promise((r) => setTimeout(r, 650));
+
+      // 5. Hide cake stage and reveal final wish card
+      if (cakeStage) {
+        cakeStage.style.opacity = "0";
+        cakeStage.style.transform = "scale(0.95)";
+        setTimeout(() => {
+          cakeStage.hidden = true;
+          if (wishAfter) {
+            wishAfter.hidden = false;
+            if (wish) {
+              if (savedWishDisplay) savedWishDisplay.hidden = false;
+              if (savedWishText) savedWishText.textContent = `“${wish}”`;
+            }
+          }
+        }, 500);
+      }
+    }
+
+    if (cake) {
+      cake.addEventListener("click", blowOutCandles);
+      cake.addEventListener("keydown", (e) => {
+        if (e.key === "Enter" || e.key === " ") {
+          e.preventDefault();
+          blowOutCandles();
+        }
+      });
+    }
+
+    if (wishInput) {
+      wishInput.addEventListener("keydown", (e) => {
+        if (e.key === "Enter") {
+          e.preventDefault();
+          blowOutCandles();
+        }
+      });
+    }
+
+    if (relightBtn) {
+      relightBtn.addEventListener("click", () => {
+        blown = false;
+        const candles = document.querySelectorAll(".candle");
+        candles.forEach((c) => c.classList.remove("out"));
+        if (cakeStage) {
+          cakeStage.hidden = false;
+          cakeStage.style.opacity = "1";
+          cakeStage.style.transform = "scale(1)";
+        }
+        if (wishAfter) {
+          wishAfter.hidden = true;
+        }
+      });
+    }
+  }
+
+  /* ---------------------------------------------------------------
      Boot on DOM ready
   --------------------------------------------------------------- */
   document.addEventListener("DOMContentLoaded", () => {
     initAmbientCanvas();
     initLetterInteraction();
+    initCakeWish();
   });
 
 })();

@@ -15,7 +15,7 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,400;1,500&family=Pinyon+Script&family=Outfit:wght@300;400;500;600&display=swap" rel="stylesheet" />
 
-  <link rel="stylesheet" href="css/letter.css" />
+  <link rel="stylesheet" href="css/letter.css?v=2" />
 </head>
 <body>
 
@@ -117,6 +117,10 @@
           </p>
 
           <p>
+            Also if I expect that my partner would be beside me taking me into Jannah, how is that because of these expectations someone leaves me? Have I had any problem with what you have been doing now? In Islam, no one can help another person enter Jannah more than a husband and a wife can help each other. Look, you maybe got time to marry, so you are not that serious till now. You should know what you are choosing btw.
+          </p>
+
+          <p>
             Those were some random rants I maybe wanted to say to you.
           </p>
 
@@ -132,6 +136,14 @@
             Obviously for the latter case, you should be the one making a move to me. If you don't, I will be thinking you don't think you would be a match for me, and I'll be cutting off you in a couple of weeks. You don't have to text even for anything for that, for any response of this text. It's just okay for me. I think you shouldn't text me for this case, and I insist. &lt;3
           </p>
 
+          <!-- Lovely Structure: The Intimate Quotation Card -->
+          <div class="letter-quote-card">
+            <p class="letter-quote-text">
+              “Ami tomake jototuku chinsi, ei koydine, apart from these minor issues, I'm very interested to live my life with you; probably it wouldn't be possible if you don't want it for yourself.”
+            </p>
+            <div class="letter-quote-decor">♡</div>
+          </div>
+
           <!-- Postscript (N.B.) Styled Callout Box -->
           <div class="nb-callout">
             <div class="nb-label">N.B.</div>
@@ -140,17 +152,59 @@
             </p>
           </div>
 
-        </div>
+          <!-- Interactive Cake & Birthday Wish Section -->
+          <section class="wish-cake-section" id="wish-cake-section">
+            <div class="cake-header">
+              <span class="cake-eyebrow">make a wish</span>
+              <h3 class="cake-title">Make a wish, <em>Raisa</em> ✨</h3>
+              <p class="cake-subtitle">Type your silent wish below (or keep it in your heart), then tap the cake to blow out the candles 🎂</p>
+            </div>
 
-        <!-- Conclusion & Signature -->
-        <footer class="letter-signoff">
-          <p class="signoff-wish">
-            Happy Birthday, Raisa. I wish you to smile like this the rest of your life. 💕
-          </p>
-          <div class="signoff-signature">
-            <span class="signature-name">— Ashab</span>
-          </div>
-        </footer>
+            <div class="wish-input-wrapper">
+              <input type="text" id="wish-input" class="wish-input" placeholder="Type your birthday wish here… (optional)" maxlength="200" autocomplete="off" />
+            </div>
+
+            <!-- The Cake Stage -->
+            <div class="cake-stage" id="cake-stage">
+              <div class="cake" id="cake" role="button" tabindex="0" aria-label="Tap to blow out the candles">
+                <div class="candles" id="candles">
+                  <div class="candle"><div class="flame"></div><div class="smoke"></div></div>
+                  <div class="candle"><div class="flame"></div><div class="smoke"></div></div>
+                  <div class="candle"><div class="flame"></div><div class="smoke"></div></div>
+                </div>
+                <div class="cake-top"><span class="cake-text">Raisa</span></div>
+                <div class="cake-layer cake-layer--1"></div>
+                <div class="cake-layer cake-layer--2"></div>
+                <div class="cake-plate"></div>
+              </div>
+              <p class="cake-hint" id="cake-hint">Tap the cake or candles to blow them out 🕯️</p>
+            </div>
+
+            <!-- After blowing out the candles: Revealed with animation -->
+            <div class="wish-after" id="wish-after" hidden>
+              <div class="wish-granted-badge">✨ Your wish has been made ✨</div>
+              <div class="saved-wish-display" id="saved-wish-display" hidden>
+                <span class="saved-wish-label">Your wish for this year:</span>
+                <p class="saved-wish-text" id="saved-wish-text"></p>
+              </div>
+
+              <!-- Lovely Structure: The Final Birthday Wish Card -->
+              <div class="final-wish-card">
+                <div class="final-wish-stars">✦ · ✧ · ✦</div>
+                <h3 class="final-wish-heading">Happy Birthday, Raisa 💕</h3>
+                <p class="final-wish-body">
+                  I wish you to smile like this the rest of your life.
+                </p>
+                <div class="final-wish-sign">
+                  <span class="final-signature">— Ashab</span>
+                </div>
+              </div>
+
+              <button class="relight-btn" id="relight-btn">Relight candles 🕯️</button>
+            </div>
+          </section>
+
+        </div>
 
       </article>
 
@@ -162,6 +216,7 @@
 
   </main>
 
-  <script src="js/letter.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.9.3/dist/confetti.browser.min.js"></script>
+  <script src="js/letter.js?v=2"></script>
 </body>
 </html>
