@@ -473,6 +473,32 @@ body {
   text-transform: uppercase;
 }
 
+/* Special Closure Note Box */
+.closure-callout {
+  margin: 2rem 0;
+  padding: 1.5rem 1.7rem;
+  background: rgba(140, 38, 53, 0.04);
+  border: 1px solid rgba(140, 38, 53, 0.22);
+  border-left: 3px solid #8c2635;
+  border-radius: 0 10px 10px 0;
+}
+
+.closure-mark {
+  font-family: var(--f-sans);
+  font-size: 0.76rem;
+  letter-spacing: 0.22em;
+  color: #8c2635;
+  margin-bottom: 0.6rem;
+  opacity: 0.85;
+}
+
+.closure-text {
+  font-size: 1.04em !important;
+  color: #27211f;
+  line-height: 1.82 !important;
+  margin: 0 !important;
+}
+
 /* Conclusion & Signature */
 .letter-signoff {
   margin-top: 2.8rem;
@@ -824,6 +850,10 @@ body {
   flex-direction: column;
   align-items: center;
   gap: 1.6rem;
+}
+
+.wish-after[hidden] {
+  display: none !important;
 }
 
 .wish-granted-badge {
