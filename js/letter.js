@@ -306,15 +306,12 @@
   }
 
   /* ---------------------------------------------------------------
-     5. Cake & Birthday Wish Logic
+     5. Cake & Birthday Candle Logic
   --------------------------------------------------------------- */
   function initCakeWish() {
     const cake = document.getElementById("cake");
-    const wishInput = document.getElementById("wish-input");
     const cakeStage = document.getElementById("cake-stage");
     const wishAfter = document.getElementById("wish-after");
-    const savedWishDisplay = document.getElementById("saved-wish-display");
-    const savedWishText = document.getElementById("saved-wish-text");
     const relightBtn = document.getElementById("relight-btn");
     let blown = false;
 
@@ -322,25 +319,17 @@
       if (blown) return;
       blown = true;
 
-      // 1. Capture wish
-      const wish = wishInput ? wishInput.value.trim() : "";
-      if (wish) {
-        try {
-          localStorage.setItem("raisa_birthday_wish", wish);
-        } catch (e) {}
-      }
-
-      // 2. Blow out each candle sequentially
+      // 1. Blow out each candle sequentially
       const candles = document.querySelectorAll(".candle");
       for (const c of candles) {
         c.classList.add("out");
         await new Promise((r) => setTimeout(r, 180));
       }
 
-      // 3. Play celebration chime
+      // 2. Play celebration chime
       MusicBox.chime();
 
-      // 4. Fire soft celebratory confetti
+      // 3. Fire soft celebratory confetti
       if (window.confetti) {
         const colors = ["#f2a0b5", "#ffd9e3", "#ecc9a0", "#e46f8f", "#fff1df"];
         const fire = (x) => window.confetti({ particleCount: 75, startVelocity: 40, spread: 360, ticks: 130, origin: { x, y: 0.6 }, colors });
@@ -351,7 +340,7 @@
 
       await new Promise((r) => setTimeout(r, 650));
 
-      // 5. Hide cake stage and reveal final wish card
+      // 4. Hide cake stage and reveal final celebration wish card
       if (cakeStage) {
         cakeStage.style.opacity = "0";
         cakeStage.style.transform = "scale(0.95)";
@@ -359,10 +348,6 @@
           cakeStage.hidden = true;
           if (wishAfter) {
             wishAfter.hidden = false;
-            if (wish) {
-              if (savedWishDisplay) savedWishDisplay.hidden = false;
-              if (savedWishText) savedWishText.textContent = `“${wish}”`;
-            }
           }
         }, 500);
       }
@@ -372,15 +357,6 @@
       cake.addEventListener("click", blowOutCandles);
       cake.addEventListener("keydown", (e) => {
         if (e.key === "Enter" || e.key === " ") {
-          e.preventDefault();
-          blowOutCandles();
-        }
-      });
-    }
-
-    if (wishInput) {
-      wishInput.addEventListener("keydown", (e) => {
-        if (e.key === "Enter") {
           e.preventDefault();
           blowOutCandles();
         }
