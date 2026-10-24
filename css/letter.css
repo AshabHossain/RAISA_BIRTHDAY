@@ -637,42 +637,6 @@ body {
   margin: 0 auto 1.8rem;
 }
 
-/* Wish Input */
-.wish-input-wrapper {
-  width: 100%;
-  max-width: 440px;
-  margin: 0 auto 2.2rem;
-  position: relative;
-}
-
-.wish-input {
-  width: 100%;
-  padding: 0.88rem 1.4rem;
-  border-radius: 999px;
-  border: 1px solid rgba(180, 150, 110, 0.45);
-  background: rgba(255, 255, 255, 0.85);
-  font-family: var(--f-sans);
-  font-size: 0.92rem;
-  color: #27211f;
-  outline: none;
-  text-align: center;
-  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.04), inset 0 1px 3px rgba(0,0,0,0.03);
-  transition: all 0.3s;
-}
-
-.wish-input:focus {
-  border-color: #8c2635;
-  background: #ffffff;
-  box-shadow: 0 8px 24px rgba(140, 38, 53, 0.12), inset 0 1px 3px rgba(0,0,0,0.02);
-}
-
-.wish-input::placeholder {
-  color: rgba(90, 80, 75, 0.55);
-  font-style: italic;
-  font-family: var(--f-display);
-  font-size: 1.05rem;
-}
-
 /* Cake Structure */
 .cake-stage {
   display: flex;
